@@ -33,7 +33,7 @@ export default function NavBar(): JSX.Element {
 
         <a
             target="_blank"
-            href="https://github.com/dmitrined/reactAit"
+            href="https://github.com/dmitrined/toolkit_projects_ait/tree/main/my-toolkit/src"
             className="p-2 text-gray-600 hover:text-blue-500 transition duration-200"
           >
             <GitHubIcon className="w-6 h-6" />
