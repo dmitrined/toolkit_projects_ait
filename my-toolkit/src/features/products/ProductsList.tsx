@@ -8,7 +8,6 @@ import {
   productsSlice,
 } from "./productsSlice"
 import ClearIcon from "@mui/icons-material/Clear"
-import GitHubIcon from '@mui/icons-material/GitHub'
 
 
 const { removeProduct } = productsSlice.actions
@@ -47,9 +46,9 @@ export const ProductsList = () => {
           hover:border-gray-700
         "
         target="_blank"
-        href="https://github.com/dmitrined/productsToolkit/tree/main/my-toolkit/src/features/products"
+        href="https://github.com/dmitrined/toolkit_projects_ait/tree/main/my-toolkit/src/features/products"
       >
-        Посмотреть код этой страницы  <GitHubIcon/>
+        Посмотреть код этой страницы  GitHubIcon
       </a>
     </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

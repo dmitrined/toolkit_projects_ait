@@ -37,7 +37,34 @@ export const UsersList = () => {
   if (loading) return <p className={styles.loading}>Загрузка...</p>;
 
   return (
+<div>
+
+
+     <div className="flex justify-center">
+      <a
+        className="
+          inline-block 
+          py-2 px-4            
+          text-white           
+          bg-gray-800          
+          border-2 border-gray-800 
+          rounded-lg           
+          font-bold            
+          text-base            
+          cursor-pointer       
+          mt-4                 
+          transition duration-300 
+          hover:bg-gray-700    
+          hover:border-gray-700
+        "
+        target="_blank"
+        href="https://github.com/dmitrined/toolkit_projects_ait/tree/main/my-toolkit/src/features/users"
+      >
+        Посмотреть код этой страницы  GitHub
+      </a>
+    </div>
     <div className={styles.grid}>
+        
       {users.map((user) => (
         <div key={user.id} className={styles.card}>
           <h2 className={styles.name}>
@@ -65,6 +92,7 @@ export const UsersList = () => {
           </div>
         </div>
       ))}
+    </div>
     </div>
   );
 };
