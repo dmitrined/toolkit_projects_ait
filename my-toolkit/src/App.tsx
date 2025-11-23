@@ -14,7 +14,7 @@ export default function App():JSX.Element {
   return (
     <Routes>
       <Route path ="/" element = {<LayOut />}>
-      <Route index element = {<UsersList />} />
+      <Route index element = {<AppProducts />} />
       <Route path="productsList" element = {<AppProducts />} />
       <Route path="usersList" element = {<UsersList />} />
       <Route path="counter" element = {<Counter />} />

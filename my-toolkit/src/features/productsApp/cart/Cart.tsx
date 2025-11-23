@@ -43,7 +43,6 @@ const Cart = () => {
                 className={styles.btn}
                 onClick={() => dispatch(decreaseQuantity(item.id))}
               >
-                −
               </button>
 
               <button
