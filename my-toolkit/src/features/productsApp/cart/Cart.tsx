@@ -2,6 +2,7 @@ import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import { removeFromCart, decreaseQuantity, addToCart } from "./cartSlice";
 import styles from "./Cart.module.css";
 
+//Тест
 const Cart = () => {
   const dispatch = useAppDispatch();
   const items = useAppSelector((state) => state.cart.items);
