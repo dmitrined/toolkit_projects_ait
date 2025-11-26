@@ -41,7 +41,7 @@ export const authSlice = createSlice({
 				}
 				// в случае успешного входа уберем ошибку - если она была
 			})
-			.addCase(login.rejected, (state, action) => {
+			.addCase(login.rejected, (state, _action) => {
 				state.error = 'Wrong email or password' 
 			})
 	},
