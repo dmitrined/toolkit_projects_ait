@@ -5,9 +5,12 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import { Avatar } from "@mui/material";
 import myFoto from "../images/myFoto.png";
 import { NavLink } from "react-router-dom";
+import { selectUser } from "../features/auth/selectors";
+import { useAppSelector } from "../app/hooks";
 
 export default function NavBar(): JSX.Element {
   const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+  const user = useAppSelector(selectUser)
   
   const projects = [
     { name: "ProductsList", to: "productsList" },
@@ -39,7 +42,8 @@ export default function NavBar(): JSX.Element {
             <GitHubIcon className="w-6 h-6" />
           </a>
 
-        
+        {user?.username ? (
+
         <div className="flex items-center space-x-4">
           
           <div className="relative">
@@ -60,38 +64,55 @@ export default function NavBar(): JSX.Element {
 
             
             {isProjectsOpen && (
-      <div 
-        className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-10"
-      >
-        {projects.map((project) => (
-          <li 
-            key={project.name}
-            className="block text-sm list-none p-0" 
-          > 
-            <NavLink 
-              to={project.to} // 
-              className={({ isActive }) => 
-                `block px-4 py-2 text-sm transition duration-150 ${
-                  isActive 
-                    ? "bg-blue-100 text-blue-700 font-semibold" // Активный стиль
-                    : "text-gray-700 hover:bg-blue-50 hover:text-blue-600" // Неактивный стиль
-                }`
-              }
-              onClick={handleLinkClick} 
-            >
-              {project.name}
-            </NavLink>
-          </li>
-        ))}
-      </div>
+              <ul 
+                className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-10 list-none p-0"
+              >
+                {projects.map((project) => (
+                  <li 
+                    key={project.name}
+                    className="block text-sm" 
+                  > 
+                    <NavLink 
+                      to={project.to} 
+                      className={({ isActive }) => 
+                        `block px-4 py-2 text-sm transition duration-150 ${
+                          isActive 
+                            ? "bg-blue-100 text-blue-700 font-semibold" 
+                            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600" 
+                        }`
+                      }
+                      onClick={handleLinkClick} 
+                    >
+                      {project.name}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
+          
+          <NavLink to="/home">
+            <Avatar alt="myFoto" src={myFoto} />
+          </NavLink>
          
-          
-
-          <Avatar alt="myFoto" src={myFoto} />
-          
+         </div>
+          ) : ( 
+          <div className="flex items-center space-x-4">
+            <NavLink 
+                to="/" 
+                className="text-gray-700 hover:text-blue-600 font-medium py-2 px-3 transition duration-200"
+            >
+                Home
+            </NavLink>
+            <NavLink 
+                to="login" 
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-200"
+            >
+                Login
+            </NavLink>
         </div>
+      )}
+
       </nav>
     </div>
   );

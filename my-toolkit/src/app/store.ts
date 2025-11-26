@@ -3,6 +3,7 @@ import productsReducer from '../features/productsApp/products/productsSlice'
 import counterReducer from '../features/counter/counterSlice'
 import usersReducer from '../features/users/usersSlice'
 import cartReducer from '../features/productsApp/cart/cartSlice'
+import authReducer from "../features/auth/authSlice";
 
 
 
@@ -12,7 +13,8 @@ export const store = configureStore({
         products: productsReducer,
         counter: counterReducer,
         users: usersReducer,
-        cart: cartReducer
+        cart: cartReducer,
+        auth: authReducer
 
     }
 })

@@ -15,6 +15,7 @@ const Cart = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  
 
   return (
     <div className={styles.cartContainer}>
