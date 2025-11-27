@@ -83,8 +83,34 @@ const WeatherApp: React.FC = () => {
   };
   
   return (
-    <div className={`min-h-screen flex justify-center items-center p-5 ${styles.container}`}> 
-      <div className={`bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-lg p-8 text-center border border-white/20 `}>
+    
+    <div className={`min-h-screen flex flex-col justify-center items-center p-5 ${styles.container}`}> 
+    <div className="flex justify-center">
+      <a
+        className="
+          inline-block 
+          py-2 px-4            
+          text-white           
+          bg-gray-800          
+          border-2 border-gray-800 
+          rounded-lg           
+          font-bold            
+          text-base            
+          cursor-pointer       
+          mt-4                 
+          transition duration-300 
+          hover:bg-gray-700    
+          hover:border-gray-700
+        "
+        target="_blank"
+        href="https://github.com/dmitrined/toolkit_projects_ait/tree/main/my-toolkit/src/features/weather"
+      >
+        Посмотреть код этой страницы  GitHub
+      </a>
+    </div>
+   
+    
+      <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-lg p-8 text-center border border-white/20 ">
         
         <h1 className="text-white text-4xl font-semibold mb-8 drop-shadow-md">
           Weather App
@@ -120,6 +146,7 @@ const WeatherApp: React.FC = () => {
         {error && !loading && renderErrorCard(error)}
 
       </div>
+       
     </div>
   );
 };
