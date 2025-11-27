@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { Navigate } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import { selectUser } from '../../features/auth/selectors'
