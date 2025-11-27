@@ -4,6 +4,7 @@ import counterReducer from '../features/counter/counterSlice'
 import usersReducer from '../features/users/usersSlice'
 import cartReducer from '../features/productsApp/cart/cartSlice'
 import authReducer from "../features/auth/authSlice";
+import weatherReducer from "../features/weather/weatherSlice";
 
 
 
@@ -14,7 +15,8 @@ export const store = configureStore({
         counter: counterReducer,
         users: usersReducer,
         cart: cartReducer,
-        auth: authReducer
+        auth: authReducer,
+        weather: weatherReducer,
 
     }
 })
