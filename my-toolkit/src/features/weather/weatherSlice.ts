@@ -33,18 +33,18 @@ const initialState: WeatherState = {
 
 const API_URL = "https://api.openweathermap.org/data/2.5/weather";
 const API_KEY = "1c20103ae7c6c0c1b59aab4ebc2647ef";
-const UNITS = "metric"; 
+const UNITS = "metric";
 
 export const fetchWeather = createAsyncThunk<
   WeatherData,
-  string, 
+  string,
   { rejectValue: { code: string; message: string } }
 >(
   "weather/fetchWeather",
   async (city: string, { rejectWithValue }) => {
-    
-    const url = `${API_URL}?q=${city}&appid=${API_KEY}&units=${UNITS}&lang=ru`; 
-    
+
+    const url = `${API_URL}?q=${city}&appid=${API_KEY}&units=${UNITS}&lang=ru`;
+
     const res = await fetch(url);
 
     if (!res.ok) {
@@ -73,7 +73,7 @@ const weatherSlice = createSlice({
       .addCase(fetchWeather.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.data = null; 
+        state.data = null;
       })
       .addCase(fetchWeather.fulfilled, (state, action: PayloadAction<WeatherData>) => {
         state.loading = false;

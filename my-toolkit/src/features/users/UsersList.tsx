@@ -1,71 +1,18 @@
 // src/features/users/UsersList.tsx
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { fetchUsers, selectUsers, selectLoading } from "./usersSlice";
 import styles from "./UsersList.module.css";
-import type { AppDispatch } from "../../app/store";
-
+import { useGetUsersQuery } from "./usersApi";
 
 export const UsersList = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const users = useSelector(selectUsers);
-  const loading = useSelector(selectLoading);
+  const { data: users, isLoading, isError, error } = useGetUsersQuery();
 
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
-// Тогда почему React  не знает что dispatch — это стабильная функция
-//   и она не пересоздаётся и не меняется между рендерами. ?
+  if (isLoading) return <p className={styles.loading}>Загрузка...</p>;
+  // Обрабатываем ошибку более надежно
+  if (isError) return <p className={styles.error}>Ошибка: {'status' in error ? `статус ${error.status}` : 'неизвестная ошибка'}</p>;
 
-// Потому что React не знает, что:
-
-// мы используем Redux
-
-// dispatch — стабилен
-
-// он не изменится
-
-// React-хуки устроены универсально и говорят:
-
-// “Ты используешь переменную в эффекте?
-// Значит, добавь её в массив зависимостей”.
-
-
-  
-
-  if (loading) return <p className={styles.loading}>Загрузка...</p>;
-
+  // Добавляем проверку на случай, если users еще не пришли
   return (
-<div>
-
-
-     <div className="flex justify-center">
-      <a
-        className="
-          inline-block 
-          py-2 px-4            
-          text-white           
-          bg-gray-800          
-          border-2 border-gray-800 
-          rounded-lg           
-          font-bold            
-          text-base            
-          cursor-pointer       
-          mt-4                 
-          transition duration-300 
-          hover:bg-gray-700    
-          hover:border-gray-700
-        "
-        target="_blank"
-        href="https://github.com/dmitrined/toolkit_projects_ait/tree/main/my-toolkit/src/features/users"
-      >
-        Посмотреть код этой страницы  GitHub
-      </a>
-    </div>
     <div className={styles.grid}>
-        
-      {users.map((user) => (
+      {users?.map((user) => (
         <div key={user.id} className={styles.card}>
           <h2 className={styles.name}>
             {user.name.firstname} {user.name.lastname}
@@ -92,7 +39,6 @@ export const UsersList = () => {
           </div>
         </div>
       ))}
-    </div>
     </div>
   );
 };

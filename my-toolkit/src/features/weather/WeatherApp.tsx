@@ -11,7 +11,7 @@ import styles from "./WeatherApp.module.css";
 const WeatherApp: React.FC = () => {
   const [city, setCity] = useState("");
   const dispatch = useAppDispatch();
-  
+
   const { data: weatherData, loading, error } = useAppSelector(
     (state) => state.weather
   );
@@ -21,42 +21,42 @@ const WeatherApp: React.FC = () => {
       alert("Пожалуйста, введите название города.");
       return;
     }
-    
+
     dispatch(resetWeatherState());
-    
+
     dispatch(fetchWeather(city));
 
   }, [city, dispatch]);
 
   const renderWeatherCard = (data: WeatherData) => {
-    const { 
-      name, 
-      sys: { country }, 
-      main: { temp, feels_like, humidity }, 
-      weather: [{ description,}], 
-      wind: { speed } 
+    const {
+      name,
+      sys: { country },
+      main: { temp, feels_like, humidity },
+      weather: [{ description, }],
+      wind: { speed }
     } = data;
-    
+
 
     return (
       <div className="bg-white/85 rounded-2xl p-8 mt-4 shadow-xl text-center">
         <h2 className="text-3xl font-semibold mb-2 text-gray-800">
           {name}, {country}
         </h2>
-        
+
         <div className="text-7xl font-bold my-4 text-gray-800 leading-none">
           {Math.round(temp)}&deg;C
         </div>
-        
+
         <div className="bg-gray-800/10 p-3 rounded-xl my-4 text-lg text-gray-800 font-medium">
           FEELS LIKE: <span className="font-semibold">{Math.round(feels_like)}&deg;C</span>
         </div>
-        
-        
+
+
         <p className="text-xl mb-6 text-gray-700 font-medium capitalize">
           {description}
         </p>
-        
+
         <div className="flex justify-between flex-wrap gap-4">
           <div className="flex-1 min-w-[45%] bg-gray-100/70 p-4 rounded-xl text-gray-800">
             <div className="font-semibold mb-1 text-sm text-gray-500">HUMIDITY</div>
@@ -81,13 +81,13 @@ const WeatherApp: React.FC = () => {
       </div>
     );
   };
-  
+
   return (
-    
-    <div className={`min-h-screen flex flex-col justify-center items-center p-5 ${styles.container}`}> 
-    <div className="flex justify-center">
-      <a
-        className="
+
+    <div className={`min-h-screen flex flex-col justify-center items-center p-5 ${styles.container}`}>
+      <div className="flex justify-center">
+        <a
+          className="
           inline-block 
           py-2 px-4            
           text-white           
@@ -102,28 +102,28 @@ const WeatherApp: React.FC = () => {
           hover:bg-gray-700    
           hover:border-gray-700
         "
-        target="_blank"
-        href="https://github.com/dmitrined/toolkit_projects_ait/tree/main/my-toolkit/src/features/weather"
-      >
-        Посмотреть код этой страницы  GitHub
-      </a>
-    </div>
-   
-    
+          target="_blank"
+          href="https://github.com/dmitrined/toolkit_projects_ait/tree/main/my-toolkit/src/features/weather"
+        >
+          Посмотреть код этой страницы  GitHub
+        </a>
+      </div>
+
+
       <div className="bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl w-full max-w-lg p-8 text-center border border-white/20 ">
-        
+
         <h1 className="text-white text-4xl font-semibold mb-8 drop-shadow-md">
           Weather App
         </h1>
-        
+
         <div className="flex mb-8 h-12">
-          <input 
+          <input
             type="text"
             className="flex-1 p-3 rounded-l-3xl border-none outline-none text-base bg-white/85 shadow-md placeholder-gray-500"
             placeholder="Введите город"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            disabled={loading} 
+            disabled={loading}
           />
           <button
             className="px-6 rounded-r-3xl bg-[#2c5364] text-white text-base font-medium transition-colors duration-300 shadow-md 
@@ -131,22 +131,22 @@ const WeatherApp: React.FC = () => {
             onClick={handleSearch}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Search"} 
+            {loading ? "Loading..." : "Search"}
           </button>
         </div>
-        
+
         {loading && (
-            <div className="text-white text-xl font-medium my-4">
-                Loading...
-            </div>
+          <div className="text-white text-xl font-medium my-4">
+            Loading...
+          </div>
         )}
-        
-        
+
+
         {weatherData && !loading && renderWeatherCard(weatherData)}
         {error && !loading && renderErrorCard(error)}
 
       </div>
-       
+
     </div>
   );
 };

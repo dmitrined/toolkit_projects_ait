@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productsReducer from '../features/productsApp/products/productsSlice'
 import counterReducer from '../features/counter/counterSlice'
-import usersReducer from '../features/users/usersSlice'
+//import usersReducer from '../features/users/usersSlice'
 import cartReducer from '../features/productsApp/cart/cartSlice'
 import authReducer from "../features/auth/authSlice";
 import weatherReducer from "../features/weather/weatherSlice";
+import { usersApi } from "../features/users/usersApi";
 
 
 
@@ -13,11 +14,11 @@ export const store = configureStore({
     reducer: {
         products: productsReducer,
         counter: counterReducer,
-        users: usersReducer,
+       // users: usersReducer,
+         [usersApi.reducerPath]: usersApi.reducer,
         cart: cartReducer,
         auth: authReducer,
         weather: weatherReducer,
-
     }
 })
 
