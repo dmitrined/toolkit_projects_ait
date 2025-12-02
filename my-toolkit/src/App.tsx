@@ -8,7 +8,7 @@ import { Counter } from './features/counter/Counter'
 import AppProducts from './features/productsApp/AppProducts'
 import Login from './features/auth/Login'
 import Home from './features/home/Home'
-import WeatherApp from './features/weather/WeatherApp'
+import Weather from './features/weather/Weather'
 
 export default function App(): JSX.Element {
 
@@ -21,7 +21,7 @@ export default function App(): JSX.Element {
         <Route path="productsList" element={<ProtectedRoute outlet={<AppProducts />} />} />
         <Route path="usersList" element={<ProtectedRoute outlet={<UsersList />} />} />
         <Route path="counter" element={<ProtectedRoute outlet={<Counter />} />} />
-        <Route path="weatherApp" element={<ProtectedRoute outlet={<WeatherApp />} />} />
+        <Route path="weatherApp" element={<ProtectedRoute outlet={<Weather />} />} />
 
 
         <Route path="home" element={<Home />} />
