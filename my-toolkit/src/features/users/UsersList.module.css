@@ -71,3 +71,10 @@
   font-size: 22px;
   margin-top: 40px;
 }
+
+.error {
+  text-align: center;
+  font-size: 22px;
+  margin-top: 40px;
+  color: #d32f2f; /* Красный цвет для ошибок */
+}

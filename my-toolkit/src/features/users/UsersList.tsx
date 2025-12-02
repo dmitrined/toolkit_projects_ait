@@ -2,14 +2,25 @@
 import styles from "./UsersList.module.css";
 import { useGetUsersQuery } from "./usersApi";
 
-export const UsersList = () => {
+const UsersList = () => {
   const { data: users, isLoading, isError, error } = useGetUsersQuery();
 
   if (isLoading) return <p className={styles.loading}>Загрузка...</p>;
-  // Обрабатываем ошибку более надежно
-  if (isError) return <p className={styles.error}>Ошибка: {'status' in error ? `статус ${error.status}` : 'неизвестная ошибка'}</p>;
 
-  // Добавляем проверку на случай, если users еще не пришли
+  if (isError) {
+    let errorMessage = "Произошла неизвестная ошибка.";
+    if (error && 'status' in error) {
+      errorMessage = `Ошибка загрузки: статус ${error.status}`;
+    } else if (error && 'message' in error) {
+      errorMessage = error.message || "Неизвестная ошибка";
+    }
+    return <p className={styles.error}>{errorMessage}</p>;
+  }
+
+  if (!users || users.length === 0) {
+    return <p className={styles.loading}>Пользователи не найдены.</p>;
+  }
+
   return (
     <div className={styles.grid}>
       {users?.map((user) => (
@@ -42,3 +53,5 @@ export const UsersList = () => {
     </div>
   );
 };
+
+export default UsersList;

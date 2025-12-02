@@ -14,12 +14,14 @@ export const store = configureStore({
     reducer: {
         products: productsReducer,
         counter: counterReducer,
-       // users: usersReducer,
-         [usersApi.reducerPath]: usersApi.reducer,
+        // users: usersReducer,
+        [usersApi.reducerPath]: usersApi.reducer,
         cart: cartReducer,
         auth: authReducer,
         weather: weatherReducer,
-    }
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(usersApi.middleware),
 })
 
 // Типы для useSelector и useDispatch
