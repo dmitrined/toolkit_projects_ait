@@ -1,79 +1,35 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCity } from "./weatherSlice";
 import { useGetWeatherQuery } from "./weatherApi";
+import type { RootState } from "../../app/store";
 import styles from "./Weather.module.css";
 
 const Weather = () => {
-  const [city, setCity] = useState("");
+  const dispatch = useDispatch();
+  const city = useSelector((state: RootState) => state.weatherState.city);
 
-  const {
-    data,
-    error,
-    isFetching,
-    refetch,
-  } = useGetWeatherQuery(city, {
-    skip: !city, //  не отправляем запрос пока нет города
+  // Автоматически подписываемся на city.
+  // Если city был сохранён persist-ом → погода появится сразу.
+  const { data, error, isFetching } = useGetWeatherQuery(city, {
+    skip: !city,
   });
-// | Поведение                         | Что писать                 |
-// | --------------------------------- | -------------------------- |
-// | Авто-запрос при изменении city    | `skip: false`              |
-// | Запрос только по кнопке           | `skip: true` + `refetch()` |
-// | Запрос только если city не пустой | `skip: !city`              |
 
+//   skip: !city
+// или если city пустая строка.
+// И это значит:
 
-
-// const { data, error, isFetching, refetch } =
-// Делаем деструктуризацию результата работы хука.
-
-// useGetWeatherQuery(city, {
-// Вызываем запрос с аргументом city.
-// Второй аргумент — объект настроек.
-
-// skip: !city,
-// Если city пустая строка → !city === true → запрос не выполняется.
-// То есть, пока пользователь ничего не ввёл, запрос не уйдёт.
-
-// });
-// Закрываем вызов хука.
-
-// В итоге у нас есть:
-
-// data — результат запроса (ответ от API)
-
-// error — ошибка, если запрос не удался
-
-// isFetching — флаг загрузки
-
-// refetch — функция, чтобы можно было вручную перезапустить запрос
-
+// Вкладка открылась → city пустая → запрос НЕ запущен
+// Persist восстановил weatherApi в store → но компонент НЕ подписан на кэш
+// Поэтому UI не показывает погоду
 
   const handleSearch = () => {
     if (!city) {
       alert("Введите город");
       return;
     }
-    refetch(); // вручную запускаем запрос
+    // refetch уже не нужен — useGetWeatherQuery сам вызовет запрос
   };
-//   const handleSearch = () => {
-// Обработчик клика по кнопке "Получить погоду".
-
-// if (!city) {
-// Если город не введён…
-
-// alert("Введите город");
-// Показываем пользователю предупреждение.
-
-// return;
-// Прерываем выполнение функции.
-
-// }
-// Конец проверки.
-
-// refetch();
-// Если город введён — вручную запускаем запрос.
-// Хотя хук уже «подписан» на city, мы используем refetch, чтобы показать студентам явный вызов.
-
-// };
-// Конец функции handleSearch.
+  
 
   return (
     <div className={styles.container}>
@@ -85,7 +41,7 @@ const Weather = () => {
           placeholder="Введите город"
           value={city}
           className={styles.input}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={(e) => dispatch(setCity(e.target.value))}
         />
 
         <button className={styles.button} onClick={handleSearch}>
@@ -97,7 +53,9 @@ const Weather = () => {
 
         {data && (
           <div className={styles.weatherBox}>
-            <h2>{data.name}, {data.sys.country}</h2>
+            <h2>
+              {data.name}, {data.sys.country}
+            </h2>
             <p>Температура: {data.main.temp}°C</p>
             <p>Погода: {data.weather[0].description}</p>
             <p>Влажность: {data.main.humidity}%</p>

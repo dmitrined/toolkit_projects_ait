@@ -9,6 +9,7 @@ import AppProducts from './features/productsApp/AppProducts'
 import Login from './features/auth/Login'
 import Home from './features/home/Home'
 import Weather from './features/weather/Weather'
+import CryptoWallet from './features/cryptoWallet/CryptoWallet'
 
 export default function App(): JSX.Element {
 
@@ -22,6 +23,8 @@ export default function App(): JSX.Element {
         <Route path="usersList" element={<ProtectedRoute outlet={<UsersList />} />} />
         <Route path="counter" element={<ProtectedRoute outlet={<Counter />} />} />
         <Route path="weatherApp" element={<ProtectedRoute outlet={<Weather />} />} />
+        <Route path="cryptoWallet" element={<ProtectedRoute outlet={<CryptoWallet />} />} />
+
 
 
         <Route path="home" element={<Home />} />

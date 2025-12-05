@@ -1,30 +1,61 @@
-import { configureStore } from "@reduxjs/toolkit";
-import productsReducer from '../features/productsApp/products/productsSlice'
-import counterReducer from '../features/counter/counterSlice'
-import cartReducer from '../features/productsApp/cart/cartSlice'
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; 
+import productsReducer from '../features/productsApp/products/productsSlice';
+import counterReducer from '../features/counter/counterSlice';
+import cartReducer from '../features/productsApp/cart/cartSlice';
 import authReducer from "../features/auth/authSlice";
+import weatherStateReducer from "../features/weather/weatherSlice";
 import { usersApi } from "../features/users/usersApi";
 import { weatherApi } from "../features/weather/weatherApi";
+import { cryptoApi } from "../features/cryptoWallet/cryptoApi";
 
+// ---------- Объединяем все редьюсеры ----------
+const rootReducer = combineReducers({
+    products: productsReducer,
+    counter: counterReducer,
+    cart: cartReducer,
+    auth: authReducer,
+    weatherState: weatherStateReducer,
 
+    // RTK Query reducers
+    [weatherApi.reducerPath]: weatherApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer,
+    [cryptoApi.reducerPath]: cryptoApi.reducer,
+});
 
-//→ Импортируем configureStore — простой способ создать store.
+// ---------- Настройки persist ----------
+// Сохраняем auth и кэш RTK Query APIs
+const persistConfig = {
+    key: "root", // имя "корневого" ключа, под которым всё состояние будет храниться в storage
+    // в localStorage будет ключ вроде: persist:root
+    storage, // Это означает: используй localStorage браузера
+    whitelist: ["auth", "weatherState", "counter", usersApi.reducerPath, weatherApi.reducerPath, cryptoApi.reducerPath],
+    // список строк с именами редьюсеров, которые нужно сохранять
+    // Важно: только эти части состояния попадут в localStorage. Остальное — нет.
+};
+
+// Оборачиваем rootReducer в persistReducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// ---------- Создаём store ----------
 export const store = configureStore({
-    reducer: {
-        products: productsReducer,
-        counter: counterReducer,
-        [weatherApi.reducerPath]: weatherApi.reducer,
-        [usersApi.reducerPath]: usersApi.reducer,
-        cart: cartReducer,
-        auth: authReducer,
-    },
+    reducer: persistedReducer, // В reducer мы передаём не rootReducer, а уже обёрнутый persistedReducer
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(weatherApi.middleware, usersApi.middleware),
-})
+        getDefaultMiddleware({
+            serializableCheck: {
+                // Игнорируем redux-persist actions
+                ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+            },
+        })
+            .concat(weatherApi.middleware)
+            .concat(usersApi.middleware)
+            .concat(cryptoApi.middleware),
+});
 
-// Типы для useSelector и useDispatch
+// ---------- Создаём persistor ----------
+export const persistor = persistStore(store);
 
+// ---------- Типы для useSelector и useDispatch ----------
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-// → Создаём типы для селектора и диспатчера, чтобы использовать в TS-компонентах.

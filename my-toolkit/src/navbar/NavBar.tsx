@@ -17,6 +17,8 @@ export default function NavBar(): JSX.Element {
     { name: "UsersList", to: "usersList" },
     { name: "Counter", to: "counter" },
     { name: "WeatherApp", to: "weatherApp" },
+    { name: "CryptoWallet", to: "cryptoWallet" },
+
   ];
 
   const handleLinkClick = () => {

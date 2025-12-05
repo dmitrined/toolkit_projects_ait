@@ -29,7 +29,13 @@ export const login = createAsyncThunk('auth/login', ({ username, password }: Cre
 export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
-	reducers: {},
+	reducers: {
+		// Добавляем logout action для очистки состояния пользователя
+		logout: (state) => {
+			state.user = undefined;
+			state.error = '';
+		},
+	},
 	extraReducers: builder => {
 		builder
 			.addCase(login.fulfilled, (state, action) => {
@@ -42,8 +48,9 @@ export const authSlice = createSlice({
 				// в случае успешного входа уберем ошибку - если она была
 			})
 			.addCase(login.rejected, state => {
-				state.error = 'Wrong email or password' 
+				state.error = 'Wrong email or password'
 			})
 	},
 })
-export default authSlice.reducer
+export const { logout } = authSlice.actions;
+export default authSlice.reducer;
